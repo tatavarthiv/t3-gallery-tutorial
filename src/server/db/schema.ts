@@ -14,11 +14,12 @@ export const createTable = pgTableCreator(
   (name) => `t3-gallery-tutorial_${name}`,
 );
 
-export const posts = createTable(
-  "post",
+export const images = createTable(
+  "image",
   (d) => ({
     id: d.integer().primaryKey().generatedByDefaultAsIdentity(),
-    name: d.varchar({ length: 256 }),
+    name: d.varchar("name", { length: 256 }).notNull(),
+    url: d.varchar("url", { length: 1024 }).notNull(),
     createdAt: d
       .timestamp({ withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
