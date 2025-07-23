@@ -23,7 +23,7 @@ const useUploadThingInputProps = (...args: Input) => {
   return {
     inputProps: {
       onChange,
-      multiple: ($ut.permittedFileInfo?.config?.image?.maxFileCount ?? 1) > 1,
+      multiple: $ut.permittedFileInfo?.config?.image?.maxFileCount ?? 1 > 1,
       accept: "image/*",
     },
     isUploading: $ut.isUploading,
@@ -72,8 +72,27 @@ function LoadingSpinnerSVG() {
 
 export function SimpleUploadButton() {
   const router = useRouter();
+
   const { inputProps } = useUploadThingInputProps("imageUploader", {
+    onUploadBegin() {
+      toast(
+        <div className="flex items-center gap-2 text-white">
+          <LoadingSpinnerSVG /> <span className="text-lg">Uploading...</span>
+        </div>,
+        {
+          duration: 100000,
+          id: "upload-begin",
+        },
+      );
+    },
+    onUploadError(error) {
+      toast.dismiss("upload-begin");
+      toast.error("Upload failed");
+    },
     onClientUploadComplete() {
+      toast.dismiss("upload-begin");
+      toast("Upload complete!");
+
       router.refresh();
     },
   });
