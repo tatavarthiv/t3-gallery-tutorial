@@ -44,6 +44,7 @@ export default function RootLayout({
             <main className="overflow-y-scroll">{children}</main>
             {modal}
           </div>
+          <div id="modal-root" />
           <Toaster />
         </body>
       </html>
