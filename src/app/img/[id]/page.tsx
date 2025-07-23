@@ -1,5 +1,5 @@
-import { getImage } from "~/server/queries";
 import { notFound } from "next/navigation";
+import FullPageImageView from "~/components/full-image-page";
 
 export default async function PhotoModal({
   params,
@@ -13,15 +13,5 @@ export default async function PhotoModal({
     notFound();
   }
 
-  try {
-    const image = await getImage(numericId);
-
-    return (
-      <div className="flex h-full min-h-0 w-full min-w-0 overflow-y-hidden">
-        <img src={image.url} className="w-96" alt={image.name} />
-      </div>
-    );
-  } catch (error) {
-    notFound();
-  }
+  return <FullPageImageView id={numericId} />;
 }

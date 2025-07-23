@@ -1,17 +1,12 @@
 "use client";
 
-import { type ElementRef, useEffect, useRef, useState } from "react";
+import { type ElementRef, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { createPortal } from "react-dom";
 
 export function Modal({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const dialogRef = useRef<ElementRef<"dialog">>(null);
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   useEffect(() => {
     if (!dialogRef.current?.open) {
@@ -21,11 +16,6 @@ export function Modal({ children }: { children: React.ReactNode }) {
 
   function onDismiss() {
     router.back();
-  }
-
-  // Don't render anything during SSR
-  if (!isMounted) {
-    return null;
   }
 
   return createPortal(
